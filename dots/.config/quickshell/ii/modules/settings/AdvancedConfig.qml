@@ -90,6 +90,4 @@ ContentPage {
         }
     }
 
-
-
 }

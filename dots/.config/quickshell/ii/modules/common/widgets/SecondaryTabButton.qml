@@ -1,6 +1,6 @@
 import qs.modules.common
-import qs.modules.common.functions
 import qs.modules.common.widgets
+import qs.modules.common.functions
 import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
@@ -10,12 +10,14 @@ TabButton {
     id: root
     property string buttonText
     property string buttonIcon
+    property bool selected: false
     property int rippleDuration: 1200
+    height: buttonBackground.height
     property int tabContentWidth: buttonBackground.width - buttonBackground.radius*2
 
-    property color colBackground: ColorUtils.transparentize(Appearance.colors.colSurfaceContainer)
-    property color colBackgroundHover: ColorUtils.transparentize(Appearance.colors.colOnSurface, root.checked ? 1 : 0.95)
-    property color colRipple: ColorUtils.transparentize(Appearance.colors.colOnSurface, 0.95)
+    property color colBackground: ColorUtils.transparentize(Appearance.colors.colLayer1Hover, 1)
+    property color colBackgroundHover: Appearance.colors.colLayer1Hover
+    property color colRipple: Appearance.colors.colLayer1Active
 
     PointingHandInteraction {}
 
@@ -89,12 +91,8 @@ TabButton {
 
     background: Rectangle {
         id: buttonBackground
-        anchors {
-            fill: parent
-            margins: 3
-        }
         radius: Appearance?.rounding.normal
-        implicitHeight: 42
+        implicitHeight: 37
         color: (root.hovered ? root.colBackgroundHover : root.colBackground)
         layer.enabled: true
         layer.effect: OpacityMask {
@@ -158,8 +156,8 @@ TabButton {
                     verticalAlignment: Text.AlignVCenter
                     text: buttonIcon
                     iconSize: Appearance.font.pixelSize.huge
-                    fill: root.checked ? 1 : 0
-                    color: root.checked ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
+                    fill: selected ? 1 : 0
+                    color: selected ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
                     Behavior on color {
                         animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
                     }
@@ -169,7 +167,7 @@ TabButton {
                 id: buttonTextWidget
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: Appearance.font.pixelSize.small
-                color: root.checked ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
+                color: selected ? Appearance.colors.colPrimary : Appearance.colors.colOnLayer1
                 text: buttonText
                 Behavior on color {
                     animation: Appearance.animation.elementMoveFast.colorAnimation.createObject(this)
